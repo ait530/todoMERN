@@ -42,6 +42,24 @@ var server = () => {
     
     })
 
+    app.get('/save/:todo', (request, response) => {
+        let {todo} = request.params
+        new todoModel({}).save((error, savedTodo) => {
+            logError(error);
+            response.send(savedTodo);
+        })
+    })
+
+    
+    app.get('/remove/:date', (request, response)=> {
+        let {date} = request.params
+        
+        todoModel.remove({date}, (error, deletedTodo) => {
+            logError(error);
+            response.send(deletedTodo);
+        })
+    })
+
     // 3000 is the port number, this could be any number from  0 to 9999
     app.listen(3000, () => {
         console.log('App listening on port 3000!')
