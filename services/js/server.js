@@ -21,6 +21,8 @@ let todoModel = mongoose.model('todo', {
 
 var logError = (error) => {
     if (error)
+        
+        //throw sends error to front-end
         throw error; 
 }
 
@@ -51,7 +53,7 @@ var server = () => {
     })
 
     
-    app.get('/remove/:date', (request, response)=> {
+    app.get('/remove/:date', (request, response) => {
         let {date} = request.params
         
         todoModel.remove({date}, (error, deletedTodo) => {
@@ -59,6 +61,16 @@ var server = () => {
             response.send(deletedTodo);
         })
     })
+
+    app.get('/update/:date/:completed/:todo', (request, response) => {
+        let {date, completed, todo} = request.params 
+        todoModel.findByIdAndUpdate({date}, { completed, todo }, { new: true }, (error, updatedTodo) => {
+
+        logError(error):
+        response.send(updatedTodo);
+        })
+    })
+
 
     // 3000 is the port number, this could be any number from  0 to 9999
     app.listen(3000, () => {
