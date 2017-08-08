@@ -66,7 +66,7 @@ var server = () => {
         let {date, completed, todo} = request.params 
         todoModel.findByIdAndUpdate({date}, { completed, todo }, { new: true }, (error, updatedTodo) => {
 
-        logError(error):
+        logError(error);
         response.send(updatedTodo);
         })
     })
